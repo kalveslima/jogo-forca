@@ -1,0 +1,13 @@
+python
+frontend
+backend
+javascript
+react
+nextjs
+algoritmo
+computador
+internet
+programacao
+seguranca
+firewall
+linux

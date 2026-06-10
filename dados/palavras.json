@@ -1,0 +1,18 @@
+[
+  {
+    "palavra": "python",
+    "dicas": [
+      "Linguagem de programação",
+      "Criada por Guido van Rossum",
+      "Muito usada em IA"
+    ]
+  },
+  {
+    "palavra": "frontend",
+    "dicas": [
+      "Parte visual de um sistema",
+      "Executa no navegador",
+      "React é muito usado"
+    ]
+  }
+]
