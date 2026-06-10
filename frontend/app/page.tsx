@@ -57,12 +57,37 @@ export default function Home() {
   const alfabeto =
     "abcdefghijklmnopqrstuvwxyz".split("");
 
+  function desenharForca() {
+    const partes = [
+      "",
+      "O",
+      "O\n|",
+      "O\n/|",
+      "O\n/|\\",
+      "O\n/|\\\n/",
+      "O\n/|\\\n/ \\"
+    ];
+
+    return partes[erros];
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">
 
       <h1 className="text-4xl font-bold">
         Jogo da Forca
       </h1>
+
+      <pre className="text-xl font-mono text-center">
+{`
+ +---+
+ |   |
+ ${desenharForca()}
+     |
+     |
+=======
+`}
+      </pre>
 
       <div className="text-2xl">
         Erros: {erros}/6
@@ -97,30 +122,63 @@ export default function Home() {
 
       {palavra && (
         <div className="flex flex-wrap gap-2 max-w-xl justify-center">
-          {alfabeto.map((letra) => (
-            <button
-              key={letra}
-              onClick={() =>
-                tentarLetra(letra)
-              }
-              disabled={
-                letrasUsadas.includes(letra) ||
-                venceu ||
-                perdeu
-              }
-              className="
-                w-10
-                h-10
-                border
-                rounded
-                hover:bg-gray-100
-                disabled:bg-gray-300
-                disabled:cursor-not-allowed
-              "
-            >
-              {letra.toUpperCase()}
-            </button>
-          ))}
+          {alfabeto.map((letra) => {
+
+            const foiUsada =
+              letrasUsadas.includes(letra);
+
+            const acertou =
+              foiUsada &&
+              palavra.includes(letra);
+
+            const errou =
+              foiUsada &&
+              !palavra.includes(letra);
+
+            return (
+              <button
+                key={letra}
+                onClick={() =>
+                  tentarLetra(letra)
+                }
+                disabled={
+                  foiUsada ||
+                  venceu ||
+                  perdeu
+                }
+                className={`
+                  w-10
+                  h-10
+                  border
+                  rounded
+                  font-bold
+                  transition
+
+                  ${
+                    acertou
+                      ? "bg-green-500 text-white"
+                      : ""
+                  }
+
+                  ${
+                    errou
+                      ? "bg-red-500 text-white"
+                      : ""
+                  }
+
+                  ${
+                    !foiUsada
+                      ? "hover:bg-gray-100"
+                      : ""
+                  }
+
+                  disabled:cursor-not-allowed
+                `}
+              >
+                {letra.toUpperCase()}
+              </button>
+            );
+          })}
         </div>
       )}
     </main>
