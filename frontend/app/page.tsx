@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function Home() {
   const [palavra, setPalavra] = useState("");
   const [letrasUsadas, setLetrasUsadas] = useState<string[]>([]);
+  const [erros, setErros] = useState(0);
 
   async function novoJogo() {
     const resposta = await fetch(
@@ -15,14 +16,23 @@ export default function Home() {
 
     setPalavra(dados.palavra);
     setLetrasUsadas([]);
+    setErros(0);
   }
 
   function tentarLetra(letra: string) {
-    if (letrasUsadas.includes(letra)) {
+    if (
+      letrasUsadas.includes(letra) ||
+      venceu ||
+      perdeu
+    ) {
       return;
     }
 
     setLetrasUsadas([...letrasUsadas, letra]);
+
+    if (!palavra.includes(letra)) {
+      setErros((valorAtual) => valorAtual + 1);
+    }
   }
 
   const palavraOculta = palavra
@@ -34,17 +44,49 @@ export default function Home() {
     )
     .join(" ");
 
-  const alfabeto = "abcdefghijklmnopqrstuvwxyz".split("");
+  const venceu =
+    palavra.length > 0 &&
+    palavra
+      .split("")
+      .every((letra) =>
+        letrasUsadas.includes(letra)
+      );
+
+  const perdeu = erros >= 6;
+
+  const alfabeto =
+    "abcdefghijklmnopqrstuvwxyz".split("");
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">
+
       <h1 className="text-4xl font-bold">
         Jogo da Forca
       </h1>
 
-      <div className="text-5xl tracking-widest">
-        {palavra ? palavraOculta : ""}
+      <div className="text-2xl">
+        Erros: {erros}/6
       </div>
+
+      <div className="text-5xl tracking-widest">
+        {palavra
+          ? perdeu
+            ? palavra.toUpperCase()
+            : palavraOculta
+          : ""}
+      </div>
+
+      {venceu && (
+        <div className="text-green-600 text-2xl font-bold">
+          🎉 Você venceu!
+        </div>
+      )}
+
+      {perdeu && (
+        <div className="text-red-600 text-2xl font-bold">
+          💀 Você perdeu!
+        </div>
+      )}
 
       <button
         onClick={novoJogo}
@@ -58,8 +100,14 @@ export default function Home() {
           {alfabeto.map((letra) => (
             <button
               key={letra}
-              onClick={() => tentarLetra(letra)}
-              disabled={letrasUsadas.includes(letra)}
+              onClick={() =>
+                tentarLetra(letra)
+              }
+              disabled={
+                letrasUsadas.includes(letra) ||
+                venceu ||
+                perdeu
+              }
               className="
                 w-10
                 h-10
