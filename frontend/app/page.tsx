@@ -57,18 +57,88 @@ export default function Home() {
   const alfabeto =
     "abcdefghijklmnopqrstuvwxyz".split("");
 
-  function desenharForca() {
-    const partes = [
-      "",
-      "O",
-      "O\n|",
-      "O\n/|",
-      "O\n/|\\",
-      "O\n/|\\\n/",
-      "O\n/|\\\n/ \\"
-    ];
+  function ForcaSVG() {
+    return (
+      <svg width="220" height="250" viewBox="0 0 220 250">
+        {/* Estrutura */}
+        <line x1="20" y1="230" x2="180" y2="230" stroke="black" strokeWidth="4" />
+        <line x1="60" y1="230" x2="60" y2="20" stroke="black" strokeWidth="4" />
+        <line x1="60" y1="20" x2="140" y2="20" stroke="black" strokeWidth="4" />
+        <line x1="140" y1="20" x2="140" y2="50" stroke="black" strokeWidth="4" />
 
-    return partes[erros];
+        {/* Cabeça */}
+        {erros >= 1 && (
+          <circle
+            cx="140"
+            cy="70"
+            r="20"
+            stroke="black"
+            strokeWidth="4"
+            fill="none"
+          />
+        )}
+
+        {/* Corpo */}
+        {erros >= 2 && (
+          <line
+            x1="140"
+            y1="90"
+            x2="140"
+            y2="150"
+            stroke="black"
+            strokeWidth="4"
+          />
+        )}
+
+        {/* Braço esquerdo */}
+        {erros >= 3 && (
+          <line
+            x1="140"
+            y1="110"
+            x2="110"
+            y2="130"
+            stroke="black"
+            strokeWidth="4"
+          />
+        )}
+
+        {/* Braço direito */}
+        {erros >= 4 && (
+          <line
+            x1="140"
+            y1="110"
+            x2="170"
+            y2="130"
+            stroke="black"
+            strokeWidth="4"
+          />
+        )}
+
+        {/* Perna esquerda */}
+        {erros >= 5 && (
+          <line
+            x1="140"
+            y1="150"
+            x2="115"
+            y2="190"
+            stroke="black"
+            strokeWidth="4"
+          />
+        )}
+
+        {/* Perna direita */}
+        {erros >= 6 && (
+          <line
+            x1="140"
+            y1="150"
+            x2="165"
+            y2="190"
+            stroke="black"
+            strokeWidth="4"
+          />
+        )}
+      </svg>
+    );
   }
 
   return (
@@ -78,16 +148,7 @@ export default function Home() {
         Jogo da Forca
       </h1>
 
-      <pre className="text-xl font-mono text-center">
-{`
- +---+
- |   |
- ${desenharForca()}
-     |
-     |
-=======
-`}
-      </pre>
+      <ForcaSVG />
 
       <div className="text-2xl">
         Erros: {erros}/6
@@ -109,13 +170,13 @@ export default function Home() {
 
       {perdeu && (
         <div className="text-red-600 text-2xl font-bold">
-          💀 Você perdeu!
+          💀 Você perdeu! A palavra era {palavra.toUpperCase()}
         </div>
       )}
 
       <button
         onClick={novoJogo}
-        className="px-6 py-3 rounded bg-blue-600 text-white"
+        className="px-6 py-3 rounded bg-blue-600 text-white hover:bg-blue-700"
       >
         Novo Jogo
       </button>
