@@ -18,3 +18,5 @@ fatec sao caetano do sul
 wi-fi
 redes
 tcpip
+xbox
+teclado

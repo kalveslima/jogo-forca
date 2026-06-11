@@ -20,7 +20,6 @@ function ForcaSVG({ erros }: { erros: number }) {
           fill="none"
         />
       )}
-
       {erros >= 2 && (
         <line
           x1="140"
