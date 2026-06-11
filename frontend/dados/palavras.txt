@@ -11,3 +11,10 @@ programacao
 seguranca
 firewall
 linux
+laranja
+aipim
+kauan
+fatec sao caetano do sul
+wi-fi
+redes
+tcpip

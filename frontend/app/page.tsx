@@ -87,7 +87,7 @@ export default function Home() {
   async function novoJogo() {
     try {
       const resposta = await fetch(
-        "http://localhost:5000/api/palavra"
+        "/api/palavra"
       );
 
       const dados = await resposta.json();
